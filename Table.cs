@@ -8,8 +8,11 @@ class Table{
         string currentString = "";
         List<string> splitString = new List<string>();
         foreach(char l in line){
-            if (l == '"'){
+            if (l == '"' && splitString.Count == 0 && dontSplit == false){
                 dontSplit = true;
+            }
+            else if (l == '"' && dontSplit == true){
+                dontSplit = false;
             }
             if (l == ',' && dontSplit == false){
                 splitString.Add(currentString);
@@ -34,11 +37,9 @@ class Table{
         }
 
         for (int i = 0; i < fileContent.Length; i++){
-            string[] recordData = fileContent[i].Split(",");
-
+            string[] recordData = splitCsvLine(fileContent[i]);
             for (int j = 0; j < recordData.Length; j++){
                 Console.WriteLine(recordData[j]);
-                // tempData[tempData.Keys.ToArray()[j]].Add(recordData[j]); 
             }
         }
         this.data = tempData;
