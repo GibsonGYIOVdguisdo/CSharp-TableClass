@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+
 class Table{
     private IDictionary<string, List<string>> data = new Dictionary<string, List<string>>();
 
@@ -32,22 +35,40 @@ class Table{
         IDictionary<string, List<string>> tempData = new Dictionary<string, List<string>>();
         string[] fileContent = File.ReadAllText(filePath).Split("\n");
 
+        List<string> fields = new List<string>();
+
         foreach(string field in fileContent[0].Split(",")){
             tempData[field] = new List<string>();
+            fields.Add(field);
         }
+
 
         for (int i = 0; i < fileContent.Length; i++){
             string[] recordData = splitCsvLine(fileContent[i]);
             for (int j = 0; j < recordData.Length; j++){
-                Console.WriteLine(recordData[j]);
+                tempData[fields[j]].Add(recordData[j]);
             }
         }
         this.data = tempData;
     }
 
-    public void printTable(){
-        foreach (var field in this.data){
-            Console.WriteLine(field.Key);
+    public void printTable(int count = 20, bool showIndex = false){
+        string[] keys = this.data.Keys.ToArray();
+        int recordCount = this.data[keys[0]].Count;
+
+        string toPrint = " ";
+
+        for (int i = 0; i < recordCount && i < count; i++){
+            foreach(string key in keys){
+                toPrint += $" {this.data[key][i]}";
+            }
+            if (i != recordCount - 1 && i != count - 1){
+                toPrint += $"\n{i}";
+            }
         }
+
+        Console.WriteLine(toPrint);
     }
+
+
 }
