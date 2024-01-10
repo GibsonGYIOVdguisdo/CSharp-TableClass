@@ -11,7 +11,7 @@ class Table{
         string currentString = "";
         List<string> splitString = new List<string>();
         foreach(char l in line){
-            if (l == '"' && splitString.Count == 0 && dontSplit == false){
+            if (l == '"' && currentString.Length == 0 && dontSplit == false){
                 dontSplit = true;
             }
             else if (l == '"' && dontSplit == true){
@@ -52,7 +52,7 @@ class Table{
         this.data = tempData;
     }
 
-    public void printTable(int count = 20, bool showIndex = false){
+    public void printTable(int count = 20, bool showIndex = true){
         string[] keys = this.data.Keys.ToArray();
         int recordCount = this.data[keys[0]].Count;
 
@@ -62,13 +62,10 @@ class Table{
             foreach(string key in keys){
                 toPrint += $" {this.data[key][i]}";
             }
-            if (i != recordCount - 1 && i != count - 1){
+            if (i != recordCount - 1 && i != count - 1 && showIndex == true){
                 toPrint += $"\n{i}";
             }
         }
-
         Console.WriteLine(toPrint);
     }
-
-
 }
