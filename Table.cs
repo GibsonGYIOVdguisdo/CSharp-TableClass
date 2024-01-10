@@ -68,4 +68,14 @@ class Table{
         }
         Console.WriteLine(toPrint);
     }
+    public string[] getRecord(int index){
+        string[] keys = this.data.Keys.ToArray();
+        string[] record = new string[this.data.Count];
+        int count = 0;
+        foreach(string field in keys){
+            record[count] = this.data[field][index];
+            count += 1;
+        }
+        return(record);
+    }
 }
