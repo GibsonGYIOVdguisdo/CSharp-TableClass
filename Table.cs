@@ -73,9 +73,19 @@ class Table{
         string[] record = new string[this.data.Count];
         int count = 0;
         foreach(string field in keys){
-            record[count] = this.data[field][index];
-            count += 1;
+            record[count] = this.data[field][index + 1];
+            count++;
         }
-        return(record);
+        return record;
+    }
+
+    public void setRecord(int index, string[] record){
+        string[] keys = this.data.Keys.ToArray();
+
+        int count = 0;
+        foreach(string field in keys){
+            this.data[field][index + 1] = record[count];
+            count++;
+        }
     }
 }
